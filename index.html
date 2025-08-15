@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WeekWise Input</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Heading and description above container -->
+  <h1 style="font-size: 2.5rem; font-weight: bold; text-align: center; margin-top: 20px; color: blueviolet;">
+    Daylight Savings Analyzer
+  </h1>
+  <p style="text-align: center; font-size: 1.2rem; color: #555; max-width: 700px; margin: 10px auto;">
+    Input your daily data to see weekly trends, handle missing entries, and uncover anomalies with AI-powered analysis.
+  </p>
+
+  <!-- Main container -->
+  <div class="container">
+    <h1>WeekWise Processor</h1>
+
+    <div class="input-group">
+      <input type="date" id="dateInput" />
+      <input type="number" id="valueInput" placeholder="Enter value" />
+      <button id="addBtn">Add Entry</button>
+    </div>
+
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Value</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <button id="processBtn">Process Data</button>
+
+    <h2>Weekly Sums</h2>
+    <pre id="output"></pre>
+  </div>
+
+  <script src="solution.js"></script>
+  <script>
+    const data = {};
+    const tbody = document.querySelector("#dataTable tbody");
+    const output = document.getElementById("output");
+
+    document.getElementById("addBtn").addEventListener("click", () => {
+      const date = document.getElementById("dateInput").value;
+      const value = parseInt(document.getElementById("valueInput").value, 10);
+
+      if (!date || isNaN(value)) {
+        alert("Please enter a valid date and value");
+        return;
+      }
+
+      data[date] = value;
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${date}</td>
+        <td>${value}</td>
+        <td><button class="removeBtn">❌</button></td>
+      `;
+      row.querySelector(".removeBtn").addEventListener("click", () => {
+        delete data[date];
+        row.remove();
+      });
+
+      tbody.appendChild(row);
+
+      document.getElementById("dateInput").value = "";
+      document.getElementById("valueInput").value = "";
+    });
+
+    document.getElementById("processBtn").addEventListener("click", () => {
+      if (Object.keys(data).length === 0) {
+        alert("Please add at least one entry");
+        return;
+      }
+      const result = solution(data);
+      output.textContent = JSON.stringify(result, null, 2);
+    });
+  </script>
+</body>
+</html>

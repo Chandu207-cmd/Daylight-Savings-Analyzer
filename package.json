@@ -1,0 +1,15 @@
+{
+  "name": "web-development",
+  "version": "1.0.0",
+  "description": "Solution and Jest tests for the given task",
+  "main": "solution.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Chandu Misanapu",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
